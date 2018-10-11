@@ -1,33 +1,8 @@
-# COMP3111: Software Engineering Project - Webscrapper
-## Project Problem Statement and Activities
-
-
 > **Activity 1 Due (20%): 15-10-2018 (Wk 7 Mon) 23:59**
 > Submission details will be provided on Canvas
 >
 > **Activity 2 Due (30%): 19-11-2018 (Wk 12 Mon) 23:59**
 > Submission details will be provided at Canvas
-
-## Introduction
-
-You are going to form a team of three to work on a project. The project is about web scraping - obtaining and analysis data
-from some websites automatically. You are given a skeleton code written in Java 8 that is already able to use a keyword to
-fetch some data from Craiglist. Please try the [demo program](demo.jar) to have a better idea of what the skeleton code can 
-do. You need Java 8 JDK to run and develop it. At the end of the file there is a guide to compile the project.
-
-   
-
-
-## System Requirements
-
-There are two sets of System Requirements: Basic Tasks and Advanced Tasks. Each student should complete **TWO** tasks. 
-Each COMP3111H must pick one from the Advanced Tasks while it is optional to COMP3111 student to pick both tasks from Basic 
-Tasks or having one from the Advanced Tasks. Each task, regardless it is basic or advanced, carries 20 points for 
-full marks which will be converted to 8 points of your course total.
-
-Noted that the some tasks are in a hierarchy structure. No point will be awarded if the parent task is not completed.
-Points are given in all-or-nothing fashion. 
-
 ### Basic Tasks (20 points or 8% of course total.)
 
 ![](doc-img/summary.png)
@@ -117,22 +92,6 @@ Points are given in all-or-nothing fashion.
 
 ---
 
-# Team Requirements
-
-1.	Cross-section team forming is allowed (i.e. L1 students can form a team with H students)
-	1. A COMP3111H student will still need to do an advanced task in any case.
-1.	Each team MUST be formed by 3 students enrolled in COMP3111 or COMP3111H.
-	1. Team of 1/2/4/5/6/.. is never allowed.
-	1. The teaching team will randomly assign the ungrouped students. Mathematically we might have one or two group of four.  
-1. Each team member is expected to implement 2 features from the system requirements.
-	1. A COMP3111H student needs to do ONE advanced task and ONE basic task.
-	1. A COMP3111 student may opt to do TWO basic tasks or ONE advanced task plus ONE basic task.
-	1. No two students in the same group can implement the same task. Students are expected to divide the workload by themselves.
-	1. The member implementing the task is also required to manage the Git commit log messages, testing, debugging, and documentation of the task.
-	1. Two developers may need to work on the same Java method concurrently. Team discussion meetings and version control using Git are essential to minimize conflicts during the software development process.
-
----
-
 # Activities to submit
 
 ## Activity 1 - System Requirement Specification (15%)
@@ -158,40 +117,3 @@ Based on the above project requirements, prepare and submit
 1. At least 3 meeting minutes. (1%) (submitted at the end of this course)
 1. A Gantt chart (1%)
 
-
-We expect most of the students will finish the project with reasonable efforts. They will most likely receive full marks.
-
-* No bonus. 
-* No late submit.
-
-	
----
-# Webscraper
-
-## Compile
-
-We configure the project with Gradle. Gradle can be considered as Makefile like tools that streamline the compilation for you. In this project you
-are not required to learn how to write Gradle file. If you are interested to know how, please check out [this link](http://www.vogella.com/tutorials/Gradle/article.html).
-
-### Compile with Windows Command Prompt 
-
-Goto your folder and type `gradlew run`. This will build and run the project. 
-
-If you want to just rerun the project without rebuilding it, you can go to the folder `build\jar\` 
-there should be a jar file (e.g. `webscraper-0.1.0.jar`). Try double click on it 
-(yes, you need a GUI screen to run it). 
-
-### Compile with Mac/Linux terminal 
-
-Goto your folder and type `./gradlew build`. This will build and run the project.
-
-If you want to just rerun the project without rebuilding it, you can go to the folder `build/jar/` 
-there should be a jar file (e.g. `webscraper-0.1.0.jar`). Try double click on it 
-(yes, you need a GUI screen to run it). 
-
-### Compile with Eclipse
-
-You are recommended to download the [Eclipse Photon for Windows](http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/photon/RC3/eclipse-dsl-photon-RC3-win32-x86_64.zip). 
-This version of eclipse supports Gradle out of the box.  Create a new `project` > `Gradle Project` and drag 
-everything from the given base code to the project. Refer to Lab 1 to bring up the `Gradle Tasks` windows and double
-click on the `application` > `run` to launch the application.
