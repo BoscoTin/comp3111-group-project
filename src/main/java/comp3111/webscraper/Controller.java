@@ -71,6 +71,7 @@ public class Controller {
     	textAreaConsole.setText(output);
     	labelCount.setText("Hi"); //lab5
     	
+    	labelPrice.setText("HiHi"); //bosco lab5
     }
     
     /**
