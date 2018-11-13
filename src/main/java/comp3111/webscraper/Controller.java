@@ -42,11 +42,19 @@ public class Controller {
     
     private WebScraper scraper;
     
+    // Bosco add these attribute
+    private Search[] search;
+    private int searchNo;
+    
     /**
      * Default controller
      */
     public Controller() {
     	scraper = new WebScraper();
+    	
+    	// for bosco advanced 3
+    	search = new Search[5];
+    	searchNo = 0;
     }
 
     /**
@@ -63,15 +71,27 @@ public class Controller {
     @FXML
     private void actionSearch() {
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
-    	List<Item> result = scraper.scrape(textFieldKeyword.getText());
+    	
+    	// Bosco changed these part
+    	Search s = new Search();
+    	s.setKeyword(textFieldKeyword.getText());
+    	ItemList itemList = new ItemList(scraper.scrape(textFieldKeyword.getText()) );
+    	s.setItemList(itemList);
+    	
+    	search[searchNo] = s;
+    	searchNo++;
+    	
     	String output = "";
-    	for (Item item : result) {
+    	
+    	
+    	// Bosco changed the for loop
+    	ItemList iList = search[searchNo - 1].getItemList();
+    	for (int i = 0; i < iList.getQuantity(); i++) {
+    		Item item = iList.getItem(i);
     		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
     	}
-    	textAreaConsole.setText(output);
-    	labelCount.setText("Hi"); //lab5
     	
-    	labelPrice.setText("HiHi"); //bosco lab5
+    	textAreaConsole.setText(output);
     }
     
     /**

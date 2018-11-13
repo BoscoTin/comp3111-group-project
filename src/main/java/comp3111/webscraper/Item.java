@@ -7,6 +7,9 @@ public class Item {
 	private double price ;
 	private String url ;
 	
+	// we need PostDate
+	private String postDate;
+	
 	public String getTitle() {
 		return title;
 	}
@@ -26,5 +29,19 @@ public class Item {
 		this.url = url;
 	}
 	
+	// add by bosco
+	public String getPostDate() {
+		return postDate;
+	}
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
+	}
+	
+	// make equals() to facilitate the work
+	public boolean equals(Item item) {
+		if( title == item.title && price == item.price && url == item.url)
+			return true;
+		else return false;
+	}
 
 }
