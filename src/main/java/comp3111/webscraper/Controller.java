@@ -9,6 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Hyperlink;
+//task5&6
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Button;
 import java.util.List;
 
 
@@ -40,6 +45,17 @@ public class Controller {
     @FXML
     private TextArea textAreaConsole;
     
+    @FXML
+//    task6
+    private MenuItem MenuItemLastSearch;
+    
+    @FXML
+//    task5
+    private Button ButtonRefine;
+    
+//    task5
+    private String last;
+    
     private WebScraper scraper;
     
     /**
@@ -51,10 +67,21 @@ public class Controller {
 
     /**
      * Default initializer. It is empty.
+     * set every thing empty
      */
     @FXML
     private void initialize() {
-    	
+    	labelCount.setText("");
+    	labelPrice.setText("");
+    	labelMin.setText("");
+    	labelLatest.setText("");
+    	textAreaConsole.setText("");
+    	textFieldKeyword.setText("");
+//    	task6
+    	last="";
+    	MenuItemLastSearch.setDisable(true);
+//    	task5
+    	ButtonRefine.setDisable(true);
     }
     
     /**
@@ -69,17 +96,73 @@ public class Controller {
     		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
     	}
     	textAreaConsole.setText(output);
-    	labelCount.setText("Hi"); //lab5
+//    	task6
+    	MenuItemLastSearch.setDisable(false);
+    	last = textFieldKeyword.getText();
+//    	task5
+    	ButtonRefine.setDisable(false);
+
     	
-    	labelPrice.setText("HiHi"); //bosco lab5
+//    	labelCount.setText("Hi"); //lab5
+//    	
+//    	labelPrice.setText("HiHi"); //bosco lab5
     }
-    
-    /**
-     * Called when the new button is pressed. Very dummy action - print something in the command prompt.
+    /**task6
+     * Called when the Refine button is pressed.
      */
     @FXML
-    private void actionNew() {
-    	System.out.println("actionNew");
+    private void actionRefine() {
+    	System.out.println("actionRefine: " + textFieldKeyword.getText());
+    	List<Item> result = scraper.scrape(textFieldKeyword.getText()+" "+last);
+    	String output = "";
+    	for (Item item : result) {
+    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+    	}
+    	textAreaConsole.setText(output);
+    	ButtonRefine.setDisable(true);
+    }
+    
+    /**task6
+     * Called when the Last Search button is pressed. Very dummy action - print something in the command prompt.
+     */
+    @FXML
+    private void actionLast() {
+    	System.out.println("actionLast");
+    	List<Item> result = scraper.scrape(last);
+    	textFieldKeyword.setText(last);
+    	String output = "";
+    	for (Item item : result) {
+    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+    	}
+    	textAreaConsole.setText(output);
+    	last="";
+    	MenuItemLastSearch.setDisable(true);
+    }
+    
+    /**task6
+     * Called when the button is pressed. refer to ui.fxml MenuBar
+     */
+    @FXML
+    private void actionClose() {
+    	System.out.println("actionClose");
+    	initialize();
+    }
+    @FXML
+    private void actionQuit() {
+    	System.out.println("actionQuit");
+    	System.exit(0);     
+    }
+    @FXML
+    private void actionAbout() {
+    	System.out.println("actionAbout");
+    	Alert dg =new Alert(Alert.AlertType.INFORMATION);
+    	dg.setTitle("About My Team");
+    	dg.setContentText("Bosco, Felix, Cheung\n"
+    			+ "wttang, cfyauab, tkcheungad\n"
+    			+ "BoscoTin, ycfelix, LLLLinda\n");
+    	dg.setHeaderText("Up to down: Team members Name, Itsc and Github");
+    	dg.show();
+    	
     }
 }
 
