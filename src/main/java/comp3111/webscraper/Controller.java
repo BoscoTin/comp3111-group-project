@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import java.util.List;
 
 
@@ -112,6 +114,14 @@ public class Controller {
     @FXML
     private void actionAbout() {
     	System.out.println("actionAbout");
+    	Alert dg =new Alert(Alert.AlertType.INFORMATION);
+    	dg.setTitle("About My Team");
+    	dg.setContentText("Bosco, Felix, Cheung\n"
+    			+ "wttang, cfyauab, tkcheungad\n"
+    			+ "BoscoTin, ycfelix, LLLLinda\n");
+    	dg.setHeaderText("Up to down: Team members Name, Itsc and Github");
+    	dg.show();
+    	
     }
 }
 
