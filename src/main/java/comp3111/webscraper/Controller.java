@@ -73,6 +73,22 @@ public class Controller {
     	
     	labelPrice.setText("HiHi"); //bosco lab5
     }
+    /**task6
+     * Called when the Refine button is pressed.
+     */
+    @FXML
+    private void actionRefine() {
+    	System.out.println("actionRefine: " + textFieldKeyword.getText());
+    	/**
+         * Not implemented
+         */
+//    	List<Item> result = scraper.scrape(textFieldKeyword.getText());
+//    	String output = "";
+//    	for (Item item : result) {
+//    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+//    	}
+//    	textAreaConsole.setText(output);
+    }
     
     /**
      * Called when the new button is pressed. Very dummy action - print something in the command prompt.
@@ -80,6 +96,22 @@ public class Controller {
     @FXML
     private void actionNew() {
     	System.out.println("actionNew");
+    }
+    
+    /**task6
+     * Called when the button is pressed. refer to ui.fxml MenuBar
+     */
+    @FXML
+    private void actionClose() {
+    	System.out.println("actionClose");
+    }
+    @FXML
+    private void actionQuit() {
+    	System.out.println("actionQuit");
+    }
+    @FXML
+    private void actionAbout() {
+    	System.out.println("actionAbout");
     }
 }
 
