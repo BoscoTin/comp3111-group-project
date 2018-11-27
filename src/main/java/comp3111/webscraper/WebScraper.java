@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 import java.util.Vector;
 
 
@@ -68,6 +69,7 @@ public class WebScraper {
 
 	private static final String DEFAULT_URL = "https://newyork.craigslist.org/";
 	private WebClient client;
+	
 
 	/**
 	 * Default Constructor 
@@ -87,31 +89,61 @@ public class WebScraper {
 	public List<Item> scrape(String keyword) {
 
 		try {
-			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");
-			HtmlPage page = client.getPage(searchUrl);
-
-			
-			List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
-			
+			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");			
 			Vector<Item> result = new Vector<Item>();
+			
+			boolean lastPage = false;
+			int pageNum = 0;
+			do {
+				HtmlPage page = client.getPage(searchUrl);
+				
+				List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
+				
+				// Pagination: get the total number of item first
+				HtmlElement spanPageNum = ((HtmlElement) page.getFirstByXPath(".//span[@class='totalcount']"));
+				HtmlElement spanPageRange = ((HtmlElement) page.getFirstByXPath(".//span[@class='range']"));
+				
+				// check if the total num in range
+				String pageRange[] = spanPageRange.asText().split(" ");
+				if( Integer.parseInt(pageRange[2]) == Integer.parseInt(spanPageNum.asText()) ) {
+					lastPage = true;
+				}
+				// prevent the on9 case
+				if( Integer.parseInt(pageRange[2]) > Integer.parseInt(spanPageNum.asText()) ) {
+					break;
+				}
+				// Write in the console tab
+				System.out.println("Checking page " + pageNum++ + " with item range " + spanPageRange.asText());
+				
+				// get each item and put it into the result list
+				// no difference with skeleton code
+				for (int i = 0; i < items.size(); i++) {
+					HtmlElement htmlItem = (HtmlElement) items.get(i);
+					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
+					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
 
-			for (int i = 0; i < items.size(); i++) {
-				HtmlElement htmlItem = (HtmlElement) items.get(i);
-				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
-				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
+					// It is possible that an item doesn't have any price, we set the price to 0.0
+					// in this case
+					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
 
-				// It is possible that an item doesn't have any price, we set the price to 0.0
-				// in this case
-				String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
-
-				Item item = new Item();
-				item.setTitle(itemAnchor.asText());
-				item.setUrl(DEFAULT_URL + itemAnchor.getHrefAttribute());
-
-				item.setPrice(new Double(itemPrice.replace("$", "")));
-
-				result.add(item);
-			}
+					Item item = new Item();
+					item.setTitle(itemAnchor.asText());
+					item.setUrl(DEFAULT_URL + itemAnchor.getHrefAttribute());
+	
+					item.setPrice(new Double(itemPrice.replace("$", "")));
+	
+					result.add(item);
+				}
+				
+				// check if the pageg is the last page, if it is, change the url
+				if( lastPage == false ) {
+					HtmlAnchor itemAnchor = ((HtmlAnchor) page.getFirstByXPath(".//a[@class='button next']"));
+					searchUrl = DEFAULT_URL + itemAnchor.getHrefAttribute();
+				}
+				
+			} while(lastPage == false);
+			
+			
 			client.close();
 			return result;
 		} catch (Exception e) {
