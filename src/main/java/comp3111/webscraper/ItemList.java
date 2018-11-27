@@ -24,7 +24,7 @@ public class ItemList {
 	public void mergeList(ItemList anotherList) {
 		// dont use contains() in List, isDuplicated() is for your function
 	}
-	public void refineSearch() {
+	public void refineSearch(String keyword) {
 		
 	}
 	
