@@ -6,6 +6,8 @@ public class Item {
 	private String title ; 
 	private double price ;
 	private String url ;
+	// for task 4 and adv task 3
+	private String postDate;
 	
 	public String getTitle() {
 		return title;
@@ -26,5 +28,15 @@ public class Item {
 		this.url = url;
 	}
 	
-
+	public String getPostDate() {
+		return postDate;
+	}
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
+	}
+	public boolean isDuplicated(Item item) {
+		return (this.title == item.title)
+				&& (this.price == item.price)
+				&& (this.postDate == item.postDate);
+	}
 }
