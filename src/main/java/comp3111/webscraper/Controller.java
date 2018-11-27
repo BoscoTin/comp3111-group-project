@@ -113,7 +113,9 @@ public class Controller {
     	ItemList iList = search[searchNo - 1].getItemList();
     	for (int i = 0; i < iList.getQuantity(); i++) {
     		Item item = iList.getItem(i);
-    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+    		
+    		// also print the postDate
+    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\t" + item.getPostDate() + "\n";
     	}
     	
     	textAreaConsole.setText(output);

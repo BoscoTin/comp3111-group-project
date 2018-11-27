@@ -93,7 +93,7 @@ public class WebScraper {
 			Vector<Item> result = new Vector<Item>();
 			
 			boolean lastPage = false;
-			int pageNum = 0;
+			int pageNum = 1;
 			do {
 				HtmlPage page = client.getPage(searchUrl);
 				
@@ -121,6 +121,9 @@ public class WebScraper {
 					HtmlElement htmlItem = (HtmlElement) items.get(i);
 					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
 					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
+					
+					// add postDate
+					HtmlElement timeClass = ((HtmlElement) htmlItem.getFirstByXPath(".//time[@class='result-date']"));
 
 					// It is possible that an item doesn't have any price, we set the price to 0.0
 					// in this case
@@ -131,6 +134,9 @@ public class WebScraper {
 					item.setUrl(DEFAULT_URL + itemAnchor.getHrefAttribute());
 	
 					item.setPrice(new Double(itemPrice.replace("$", "")));
+					
+					// add postDate
+					item.setPostDate(timeClass.asText());
 	
 					result.add(item);
 				}
