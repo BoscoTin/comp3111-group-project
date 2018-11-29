@@ -16,6 +16,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
 import java.util.List;
 
+// for advanced 3
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.ComboBox;
 
 /**
  * 
@@ -61,6 +66,11 @@ public class Controller {
     // Bosco add these attribute
     private Search[] search;
     private int searchNo;
+    
+    @FXML
+    private AreaChart trendChart;
+    @FXML
+    private ComboBox trendComboBox;
     
     /**
      * Default controller

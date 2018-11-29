@@ -135,8 +135,8 @@
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ComboBox layoutX="273.0" layoutY="14.0" prefWidth="150.0" promptText="Search Record" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                                          <AreaChart layoutX="-41.0" layoutY="-62.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+                                          <ComboBox fx:id="trendComboBox" layoutX="273.0" layoutY="14.0" prefWidth="150.0" promptText="Search Record" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                          <AreaChart fx:id="trendChart" layoutX="-41.0" layoutY="-62.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                             <xAxis>
                                               <CategoryAxis side="BOTTOM" />
                                             </xAxis>
