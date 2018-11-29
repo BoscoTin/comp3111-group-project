@@ -1,6 +1,8 @@
 package comp3111.webscraper;
 
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -117,6 +119,9 @@ public class WebScraper {
 				
 				// get each item and put it into the result list
 				// no difference with skeleton code
+				
+				new Thread(()-> 
+				{
 				for (int i = 0; i < items.size(); i++) {
 					HtmlElement htmlItem = (HtmlElement) items.get(i);
 					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
@@ -134,12 +139,18 @@ public class WebScraper {
 					item.setUrl(DEFAULT_URL + itemAnchor.getHrefAttribute());
 	
 					item.setPrice(new Double(itemPrice.replace("$", "")));
-					
+					if(item.getUrl().contains("craigslist")) 
+					{
+						item.setPortal("craigslist");
+					}
 					// add postDate
 					item.setPostDate(timeClass.asText());
-	
+					
 					result.add(item);
 				}
+				}).start();
+				
+				
 				
 				// check if the pageg is the last page, if it is, change the url
 				if( lastPage == false ) {
@@ -151,6 +162,30 @@ public class WebScraper {
 			
 			
 			client.close();
+			
+
+			Collections.sort(result, new Comparator<Item>() 
+			
+			{	@Override
+				public int compare(Item o1, Item o2) 
+				{
+				
+				if(o1.getPrice()==o2.getPrice()) 
+				{
+					if(o1.getPortal()!=null) {return 1;}
+					if(o2.getPortal()!=null) {return -1;}
+					return 0;
+				}
+					return o1.getPrice()>o2.getPrice()?1:-1;
+				}
+			});
+			
+//			for(Item item:result) 
+//			{
+//				System.out.println(item.getPrice());
+//			}
+			
+			
 			return result;
 		} catch (Exception e) {
 			System.out.println(e);

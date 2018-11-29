@@ -1,13 +1,13 @@
 package comp3111.webscraper;
 
 
-
 public class Item {
 	private String title ; 
 	private double price ;
 	private String url ;
 	// for task 4 and adv task 3
 	private String postDate;
+	private String Portal=null;
 	
 	public String getTitle() {
 		return title;
@@ -24,6 +24,15 @@ public class Item {
 	public String getUrl() {
 		return url;
 	}
+	public String getPortal() 
+	{
+		return this.Portal;
+	}
+	public void setPortal(String Portal) 
+	{
+		this.Portal=Portal;
+	}
+	
 	public void setUrl(String url) {
 		this.url = url;
 	}
