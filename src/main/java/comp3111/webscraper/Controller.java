@@ -12,11 +12,17 @@ import javafx.scene.control.*;
 //task5&6
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.util.Date;
 import java.util.List;
-
-
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.util.Callback;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.web.WebView;
+import javafx.application.HostServices;
+import javafx.scene.web.WebEngine;
 /** 
  * 
  * @author kevinw
@@ -25,6 +31,8 @@ import java.util.List;
  * Controller class that manage GUI interaction. Please see document about JavaFX for details.
  * 
  */
+
+
 public class Controller {
 
 	@FXML
@@ -36,10 +44,12 @@ public class Controller {
 	@FXML
 	private TableColumn<Item,Double> Price;
 	@FXML
-	private TableColumn<Item,String> URL;
+	private TableColumn<Item,Hyperlink> URL;
 	@FXML
 	private TableColumn<Item, String> Posted_Date;
 
+
+	
     @FXML 
     private Label labelCount; 
 
@@ -75,6 +85,7 @@ public class Controller {
     private Search[] search;
     private int searchNo;
     
+    
     /**
      * Default controller
      */
@@ -85,7 +96,27 @@ public class Controller {
     	search = new Search[5];
     	searchNo = -1;
     }
+    
+    
 
+
+    public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, TableCell<Item, Hyperlink>> {
+        
+        @Override
+        public TableCell<Item, Hyperlink> call(TableColumn<Item, Hyperlink> arg) {
+            TableCell<Item, Hyperlink> cell = new TableCell<Item, Hyperlink>() {
+                @Override               
+                protected void updateItem(Hyperlink item, boolean empty) {
+                    setGraphic(item);
+                    
+                }
+            };
+            return cell;
+        }
+    }
+
+   
+    
     /**
      * Default initializer. It is empty.
      * set every thing empty
@@ -97,8 +128,9 @@ public class Controller {
 		
 		Price.setCellValueFactory(new PropertyValueFactory<Item,Double>("price"));
 		
-		URL.setCellValueFactory(new PropertyValueFactory<Item,String>("url"));
-	
+		URL.setCellValueFactory(new PropertyValueFactory<Item,Hyperlink>("hyperlink"));
+		URL.setCellFactory(new HyperlinkCell());
+		
 		Posted_Date.setCellValueFactory(new PropertyValueFactory<Item,String>("postDate"));
 		
 
@@ -113,13 +145,17 @@ public class Controller {
     	MenuItemLastSearch.setDisable(true);
 //    	task5
     	ButtonRefine.setDisable(true);
+    	
+    	
+       
+    	
+    	
     }
     //task 4
     private void FillTable(ItemList itemList)
 	{
     	
 		Table.setItems(getItem(itemList));
-		//Table.refresh();
 	}
 
     //task 4

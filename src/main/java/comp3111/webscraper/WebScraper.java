@@ -90,7 +90,7 @@ public class WebScraper {
 	 * @param keyword - the keyword you want to search
 	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
 	 */
-	public List<Item> scrape1(String keyword) {
+	public List<Item> scrape(String keyword) {
 
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");			
@@ -137,7 +137,7 @@ public class WebScraper {
 						String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
 						Item item = new Item();
 						item.setTitle(itemAnchor.asText());
-						item.setUrl(DEFAULT_URL + itemAnchor.getHrefAttribute());
+						item.setUrl(itemAnchor.getHrefAttribute());
 	
 						item.setPrice(new Double(itemPrice.replace("$", "")));
 						if(item.getUrl().contains("craigslist")) 
@@ -162,30 +162,7 @@ public class WebScraper {
 			} while(lastPage == false);
 			
 			
-			client.close();
-			
-			Collections.sort(result, new Comparator<Item>() 
-			
-			{	@Override
-				public int compare(Item o1, Item o2) 
-				{
-				
-				if(o1.getPrice()==o2.getPrice()) 
-				{
-					if(o1.getPortal().equals("craigslist")) {return 1;}
-					if(o2.getPortal().equals("craigslist")) {return -1;}
-					return 0;
-				}
-					return o1.getPrice()>o2.getPrice()?1:-1;
-				}
-			});
-			
-//			for(Item item:result) 
-//			{
-//				System.out.println(item.getPrice());
-//			}
-			
-			
+			client.close();	
 			return result;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -196,7 +173,7 @@ public class WebScraper {
 	
 	
 	
-	public List<Item> scrape(String keyword) {
+	public List<Item> scrapeSinglePage(String keyword) {
 
 		try {
 			

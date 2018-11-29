@@ -5,12 +5,15 @@ package comp3111.webscraper;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
+import javafx.application.HostServices;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-
-
+import javafx.scene.control.Hyperlink;
+import javafx.scene.layout.FlowPane;
 /**
  * @author kevinw
  * 
@@ -40,6 +43,10 @@ public class WebScraperApplication extends Application {
 
     private static final String UI_FILE = "/ui.fxml";  //It is very important that you put the file under folder src/main/resources/
 	
+ 
+
+    
+    
 	/* 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 * 
@@ -54,6 +61,7 @@ public class WebScraperApplication extends Application {
    		stage.setScene(scene);
    		stage.setTitle("WebScrapper");
    		stage.show();
+   	
     		
 
 	}
