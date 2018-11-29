@@ -20,10 +20,13 @@ import java.util.List;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ComboBox;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 /**
  * 
  * @author kevinw
@@ -220,9 +223,22 @@ public class Controller {
     	trendComboBox.getItems().clear();
     	int i = 0;
     	for(Search s : search) {
-    		if( s != null )
+    		if( s != null ) {
     			trendComboBox.getItems().add(i++, s.getKeyword());
+    		}
     	}
+    	
+    	trendComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override 
+            public void changed(ObservableValue ov, String t, String t1) {                
+                for(int i = 0; i <= searchNo; i++) {
+                	if( search[i].getKeyword().equals(t1) ) {
+                		updateAreaChart(i);
+                		break;
+                	}
+                }              
+            }    
+        });
     }
     
     /**
@@ -234,19 +250,34 @@ public class Controller {
     private void updateAreaChart(int searchNo) {
     	if(searchNo < 0 || searchNo > 4) return;
     	else {
-    		if( !trendChart.getData().isEmpty() )
-    			trendChart.getData().remove(0);
+    		if(trendChart.getData() != null) {
+    			trendChart.getData().clear();
+    		}
     		
     		trendGraphYAxis.setLabel("The average selling price of the " + search[searchNo].getKeyword());
     		
-    		XYChart.Series series= new XYChart.Series();
+    		XYChart.Series<String, Number> series= new XYChart.Series<String, Number>();
+    		
     		for(int i = 0; i < 7; i++) {
-    			
-    			if(search[searchNo].getCount(i) != 0)
-    				series.getData().add( new XYChart.Data
-    						( search[searchNo].getXPoints(i), search[searchNo].getYPoints(i) ));
+    			if(search[searchNo].getCount(i) != 0) {
+    				XYChart.Data<String, Number> data = new XYChart.Data<String, Number>
+					( search[searchNo].getXPoints(i), search[searchNo].getYPoints(i));
+    				series.getData().add(data);
+    			}
     		}
     		trendChart.getData().add(series);
+    		// add point listener
+    		for( XYChart.Data<String, Number> point : series.getData() ){
+    			point.getNode().setOnMouseClicked(event -> {
+    	    		if(event.getClickCount() == 2) {
+    	    			String day = point.getXValue();
+    	    			textAreaConsole.setText( search[searchNo].particularDayConsoleContent(day) );
+    	    			
+    	    			point.getNode().setStyle("-fx-fill: #000000;");
+    	    		}
+    	    		else return;
+    			});	
+    		}
     	}
     }
 }
