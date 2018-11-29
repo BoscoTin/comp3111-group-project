@@ -70,7 +70,7 @@ public class Controller {
     	
     	// for bosco advanced 3
     	search = new Search[5];
-    	searchNo = 0;
+    	searchNo = -1;
     }
 
     /**
@@ -97,7 +97,9 @@ public class Controller {
      */
     @FXML
     private void actionSearch() {
+    	searchNo++;
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
+    	
     	// Bosco changed these part
     	Search s = new Search();
     	s.setKeyword(textFieldKeyword.getText());
@@ -105,19 +107,8 @@ public class Controller {
     	s.setItemList(itemList);
     	
     	search[searchNo] = s;
-    	searchNo++;
     	
-    	String output = "";
-    	
-    	// Bosco changed the for loop
-    	ItemList iList = search[searchNo - 1].getItemList();
-    	for (int i = 0; i < iList.getQuantity(); i++) {
-    		Item item = iList.getItem(i);
-    		
-    		// also print the postDate
-    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\t" + item.getPostDate() + "\n";
-    	}
-    	
+    	String output = s.getConsoleContent();
     	textAreaConsole.setText(output);
     	
 //    	task6
@@ -133,6 +124,12 @@ public class Controller {
     @FXML
     private void actionRefine() {
     	System.out.println("actionRefine: " + textFieldKeyword.getText());
+    	/* Problem here for Linda (also for your actionLast())
+    	 * Please use search[searchNo].refine() to filter the searched item list
+    	 * 
+    	 * To print out the data in console, use search[searchNo].getConsoleContent() to get the output string
+    	 * As my trend tab need search class, so the interface become complicated, sorry for my bad
+    	 */
     	List<Item> result = scraper.scrape(textFieldKeyword.getText()+" "+last);
     	String output = "";
     	for (Item item : result) {
