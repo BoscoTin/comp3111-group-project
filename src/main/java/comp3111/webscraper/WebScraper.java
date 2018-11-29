@@ -136,7 +136,8 @@ public class WebScraper {
 					item.setPrice(new Double(itemPrice.replace("$", "")));
 					
 					// add postDate
-					item.setPostDate(timeClass.asText());
+					String itemDate = timeClass.getAttribute("datetime");
+					item.setPostDate(itemDate.split(" ")[0]);
 	
 					result.add(item);
 				}

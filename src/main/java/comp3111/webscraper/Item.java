@@ -1,13 +1,15 @@
 package comp3111.webscraper;
 
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Item {
 	private String title ; 
 	private double price ;
 	private String url ;
 	// for task 4 and adv task 3
-	private String postDate;
+	private Date postDate;
 	
 	public String getTitle() {
 		return title;
@@ -29,10 +31,17 @@ public class Item {
 	}
 	
 	public String getPostDate() {
-		return postDate;
+		if(postDate != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+			return sdf.format(this.postDate);
+		} else return "";
 	}
 	public void setPostDate(String postDate) {
-		this.postDate = postDate;
+		try {
+			this.postDate = postDate == null ? new SimpleDateFormat("yyyy-MM-dd").parse(postDate) : null;
+		} catch (ParseException e) {
+			System.out.println(e);
+		}
 	}
 	public boolean isDuplicated(Item item) {
 		return (this.title == item.title)
