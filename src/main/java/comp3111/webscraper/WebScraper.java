@@ -140,10 +140,7 @@ public class WebScraper {
 						item.setUrl(itemAnchor.getHrefAttribute());
 	
 						item.setPrice(new Double(itemPrice.replace("$", "")));
-						if(item.getUrl().contains("craigslist")) 
-						{
-							item.setPortal("craigslist");
-						}
+						item.setPortal("craigslist");
 						// add postDate
 						item.setPostDate(timeClass.asText());
 					

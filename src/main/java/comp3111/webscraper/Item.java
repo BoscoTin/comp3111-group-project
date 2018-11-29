@@ -18,7 +18,7 @@ public class Item {
 	
 	// for task 4 and adv task 3
 	private String postDate=null;
-	//private String Portal=null;
+	private String Portal=null;
 	
 	public String getTitle() {
 		return title;
@@ -37,8 +37,7 @@ public class Item {
 	}
 	public String getPortal() 
 	{
-		//return this.Portal;
-		return null;
+		return this.Portal;
 	}
     public Hyperlink getHyperlink() {
     	
@@ -53,7 +52,7 @@ public class Item {
 	
 	public void setPortal(String Portal) 
 	{
-		//this.Portal=Portal;
+		this.Portal=Portal;
 		
 	}
 	

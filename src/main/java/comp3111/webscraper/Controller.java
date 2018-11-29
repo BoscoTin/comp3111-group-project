@@ -107,8 +107,7 @@ public class Controller {
             TableCell<Item, Hyperlink> cell = new TableCell<Item, Hyperlink>() {
                 @Override               
                 protected void updateItem(Hyperlink item, boolean empty) {
-                    setGraphic(item);
-                    
+                    setGraphic(item);   
                 }
             };
             return cell;
