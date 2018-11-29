@@ -85,10 +85,10 @@ public class Controller {
      */
     @FXML
     private void initialize() {
-		Title.setText("this is title");
-		Price.setText("this is price");
-		URL.setText("this is url");
-		Posted_Date.setText("this is posted date");
+		Title.setText("title");
+		Price.setText("price");
+		URL.setText("url");
+		Posted_Date.setText("posted date");
 
 
     	labelCount.setText("");

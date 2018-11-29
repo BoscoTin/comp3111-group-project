@@ -93,9 +93,7 @@ public class WebScraper {
 	public List<Item> scrape(String keyword) {
 
 		try {
-			//String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");			
-			String searchUrl = CUSTOM_URL+ "search?q=123";	
-			
+			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");			
 			
 			Vector<Item> result = new Vector<Item>();
 			
@@ -174,8 +172,8 @@ public class WebScraper {
 				
 				if(o1.getPrice()==o2.getPrice()) 
 				{
-					if(o1.getPortal()!=null) {return 1;}
-					if(o2.getPortal()!=null) {return -1;}
+					if(o1.getPortal().equals("craigslist")) {return 1;}
+					if(o2.getPortal().equals("craigslist")) {return -1;}
 					return 0;
 				}
 					return o1.getPrice()>o2.getPrice()?1:-1;
@@ -232,7 +230,7 @@ public class WebScraper {
 				}
 				
 				item.setUrl(htmlItem.getAttribute("data-href"));
-
+				item.setPortal("preloved");
 				result.add(item);
 			}
 			client.close();
