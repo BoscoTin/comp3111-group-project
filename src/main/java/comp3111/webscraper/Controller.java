@@ -21,6 +21,8 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 
 /**
  * 
@@ -71,6 +73,10 @@ public class Controller {
     private AreaChart trendChart;
     @FXML
     private ComboBox trendComboBox;
+    @FXML
+    private CategoryAxis trendGraphXAxis;
+    @FXML
+    private NumberAxis trendGraphYAxis;
     
     /**
      * Default controller
