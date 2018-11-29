@@ -90,7 +90,7 @@ public class WebScraper {
 	 * @param keyword - the keyword you want to search
 	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
 	 */
-	public List<Item> scrape(String keyword) {
+	public List<Item> scrape1(String keyword) {
 
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");			
@@ -196,7 +196,7 @@ public class WebScraper {
 	
 	
 	
-	public List<Item> scrapeSinglePage(String keyword) {
+	public List<Item> scrape(String keyword) {
 
 		try {
 			
@@ -210,18 +210,12 @@ public class WebScraper {
 				HtmlElement itemAnchor = htmlItem.getFirstByXPath(".//span[@itemprop='name']");
 				HtmlElement spanPrice = htmlItem.getFirstByXPath(".//span[@itemprop='price']");
 				
-				
-				// It is possible that an item doesn't have any price, we set the price to 0.0
-				// in this case
-				
-
 				Item item = new Item();
 				if(itemAnchor!=null)
 				{
 					System.out.println(itemAnchor.asText());
 					item.setTitle(itemAnchor.asText());
-				}
-				
+				}			
 				if(spanPrice!=null)
 				{
 					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();

@@ -27,7 +27,7 @@
 
 <!-- this line specific which class is your controller - comp3111.webscraper.Controller. Thus all events shall be handled by this class -->
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.webscraper.Controller">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.webscraper.Controller">
   <children>
   
   	<!-- This is your MenuBar -->
@@ -88,7 +88,7 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <Label layoutX="51.0" layoutY="48.0" text="Number of Data Fetched:" />
-                                          <Label fx:id="labelCount" layoutX="198.0" layoutY="48.0" prefHeight="17.0" prefWidth="78.0" text="&lt;total&gt;" />
+                                          <Label fx:id="labelCount" layoutX="246.0" layoutY="48.0" prefHeight="17.0" prefWidth="78.0" text="&lt;total&gt;" />
                                           <Label layoutX="51.0" layoutY="88.0" prefHeight="17.0" prefWidth="131.0" text="Average Selling Price:" />
                                           <Label fx:id="labelPrice" layoutX="198.0" layoutY="88.0" text="&lt;AvgPrice&gt;" />
                                           <Label layoutX="51.0" layoutY="128.0" text="Lowest Selling Price:" />
@@ -103,9 +103,9 @@
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="Table" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                              <TableColumn fx:id="Title"  editable="false" prefWidth="154.0" text="Title" />
+                                              <TableColumn fx:id="Title" editable="false" prefWidth="154.0" text="Title" />
                                               <TableColumn fx:id="Price" editable="false" prefWidth="90.0" text="Price" />
                                                 <TableColumn fx:id="URL" editable="false" prefWidth="78.0" text="URL" />
                                                 <TableColumn fx:id="Posted_Date" editable="false" prefWidth="88.0" text="Posted Date" />

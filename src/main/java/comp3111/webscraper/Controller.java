@@ -4,12 +4,16 @@
 package comp3111.webscraper;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 //task5&6
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,14 +28,17 @@ import java.util.List;
 public class Controller {
 
 	@FXML
-	private TableColumn Title;
+	private TableView<Item> Table;
 
 	@FXML
-	private TableColumn Price;
+	private TableColumn<Item,String> Title;
+
 	@FXML
-	private TableColumn URL;
+	private TableColumn<Item,Double> Price;
 	@FXML
-	private TableColumn Posted_Date;
+	private TableColumn<Item,String> URL;
+	@FXML
+	private TableColumn<Item, String> Posted_Date;
 
     @FXML 
     private Label labelCount; 
@@ -85,11 +92,15 @@ public class Controller {
      */
     @FXML
     private void initialize() {
-		Title.setText("title");
-		Price.setText("price");
-		URL.setText("url");
-		Posted_Date.setText("posted date");
-
+    	
+		Title.setCellValueFactory(new PropertyValueFactory<Item,String>("title"));
+		
+		Price.setCellValueFactory(new PropertyValueFactory<Item,Double>("price"));
+		
+		URL.setCellValueFactory(new PropertyValueFactory<Item,String>("url"));
+	
+		Posted_Date.setCellValueFactory(new PropertyValueFactory<Item,String>("postDate"));
+		
 
     	labelCount.setText("");
     	labelPrice.setText("");
@@ -103,7 +114,28 @@ public class Controller {
 //    	task5
     	ButtonRefine.setDisable(true);
     }
-    
+    //task 4
+    private void FillTable(ItemList itemList)
+	{
+    	
+		Table.setItems(getItem(itemList));
+		//Table.refresh();
+	}
+
+    //task 4
+	public ObservableList<Item> getItem(ItemList itemList)
+	{
+		ObservableList<Item> list= FXCollections.observableArrayList();
+		for(int i=0;i<itemList.getQuantity();i++)
+		{
+			list.add(itemList.getItem(i));
+			//System.out.println(itemList.getItem(i).getTitle());
+		}
+		
+		return list;
+	}
+
+
     /**
      * Called when the search button is pressed.
      */
@@ -128,6 +160,9 @@ public class Controller {
     	last = textFieldKeyword.getText();
 //    	task5
     	ButtonRefine.setDisable(false);
+
+    	//task 4
+		FillTable(itemList);
     }
     
     /**task6
