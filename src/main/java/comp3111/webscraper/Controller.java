@@ -5,19 +5,15 @@ package comp3111.webscraper;
 
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Hyperlink;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 //task5&6
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Button;
+
 import java.util.List;
 
 
-/**
+/** 
  * 
  * @author kevinw
  *
@@ -26,6 +22,16 @@ import java.util.List;
  * 
  */
 public class Controller {
+
+	@FXML
+	private TableColumn Title;
+
+	@FXML
+	private TableColumn Price;
+	@FXML
+	private TableColumn URL;
+	@FXML
+	private TableColumn Posted_Date;
 
     @FXML 
     private Label labelCount; 
@@ -79,6 +85,12 @@ public class Controller {
      */
     @FXML
     private void initialize() {
+		Title.setText("this is title");
+		Price.setText("this is price");
+		URL.setText("this is url");
+		Posted_Date.setText("this is posted date");
+
+
     	labelCount.setText("");
     	labelPrice.setText("");
     	labelMin.setText("");
