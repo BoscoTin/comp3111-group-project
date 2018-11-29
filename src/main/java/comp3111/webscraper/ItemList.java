@@ -1,5 +1,7 @@
 package comp3111.webscraper;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ItemList {
@@ -63,18 +65,5 @@ public class ItemList {
 			// Post date
 			break;
 		}
-	}
-	
-	/*
-	 * Return if the same item is on the list or not
-	 * 
-	 * @param item - the item that need to be checked
-	 */
-	private boolean isDuplicated(Item item) {
-		for(int i = 0; i < list.size(); i++) {
-			if( getItem(i).equals(item) )
-				return true;
-		}
-		return false;
 	}
 }

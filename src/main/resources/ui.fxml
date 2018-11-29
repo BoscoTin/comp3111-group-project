@@ -141,7 +141,7 @@
                                               <CategoryAxis fx:id="trendGraphXAxis" side="BOTTOM" />
                                             </xAxis>
                                             <yAxis>
-                                              <NumberAxis fx:id="trendGraphYAxis" side="LEFT" />
+                                              <NumberAxis side="LEFT" />
                                             </yAxis>
                                           </AreaChart>
                                        </children>

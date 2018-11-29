@@ -36,9 +36,12 @@ public class Item {
 			return sdf.format(this.postDate);
 		} else return "";
 	}
+	public long getTime() {
+		return postDate != null ? postDate.getTime() : 0;
+	}
 	public void setPostDate(String postDate) {
 		try {
-			this.postDate = postDate == null ? new SimpleDateFormat("yyyy-MM-dd").parse(postDate) : null;
+			this.postDate = postDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(postDate) : null;
 		} catch (ParseException e) {
 			System.out.println(e);
 		}

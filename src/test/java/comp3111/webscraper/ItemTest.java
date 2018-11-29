@@ -13,4 +13,25 @@ public class ItemTest {
 		i.setTitle("ABCDE");
 		assertEquals(i.getTitle(), "ABCDE");
 	}
+	
+	@Test
+	public void testSetPostDate() {
+		Item i = new Item();
+		i.setPostDate("2018-11-30");
+		assertEquals(i.getPostDate(), "11/30/2018");
+	}
+	
+	@Test
+	public void testSetPrice() {
+		Item i = new Item();
+		i.setPrice(999.0);
+		assertEquals( i.getPrice() - 999.0 < 0.001, true);
+	}
+	
+	@Test
+	public void testSetUrl() {
+		Item i = new Item();
+		i.setUrl("craiglist.org");
+		assertEquals( i.getUrl(), "craiglist.org");
+	}
 }

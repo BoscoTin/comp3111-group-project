@@ -74,8 +74,6 @@ public class Controller {
     @FXML
     private ComboBox trendComboBox;
     @FXML
-    private CategoryAxis trendGraphXAxis;
-    @FXML
     private NumberAxis trendGraphYAxis;
     
     /**
@@ -106,6 +104,7 @@ public class Controller {
     	MenuItemLastSearch.setDisable(true);
 //    	task5
     	ButtonRefine.setDisable(true);
+    	
     }
     
     /**
@@ -113,7 +112,15 @@ public class Controller {
      */
     @FXML
     private void actionSearch() {
-    	searchNo++;
+    	
+    	// make sure the search is lower than 5
+    	if(searchNo != 4)
+    		searchNo++;
+    	else {
+    		for(int i = 0; i < 4; i++)
+    			search[i] = search[i+1];
+    	}
+    	
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
     	
     	// Bosco changed these part
@@ -132,6 +139,11 @@ public class Controller {
     	last = textFieldKeyword.getText();
 //    	task5
     	ButtonRefine.setDisable(false);
+    	
+    	// advance 3
+    	s.setAreaChart();
+    	updateComboBox();
+    	updateAreaChart(searchNo);
     }
     
     /**task6
@@ -199,5 +211,43 @@ public class Controller {
     	dg.show();
     }
     
+    /**
+     * Function to update the comboBox content in the trend tab.
+     * 
+     * for advanced 3
+     */
+    private void updateComboBox() {
+    	trendComboBox.getItems().clear();
+    	int i = 0;
+    	for(Search s : search) {
+    		if( s != null )
+    			trendComboBox.getItems().add(i++, s.getKeyword());
+    	}
+    }
+    
+    /**
+     * Function to update the Chart with the assigned search
+     * 
+     * for advanced 3
+     * @param searchNo - the search that linked to which search user want to show with the chart
+     */
+    private void updateAreaChart(int searchNo) {
+    	if(searchNo < 0 || searchNo > 4) return;
+    	else {
+    		if( !trendChart.getData().isEmpty() )
+    			trendChart.getData().remove(0);
+    		
+    		trendGraphYAxis.setLabel("The average selling price of the " + search[searchNo].getKeyword());
+    		
+    		XYChart.Series series= new XYChart.Series();
+    		for(int i = 0; i < 7; i++) {
+    			
+    			if(search[searchNo].getCount(i) != 0)
+    				series.getData().add( new XYChart.Data
+    						( search[searchNo].getXPoints(i), search[searchNo].getYPoints(i) ));
+    		}
+    		trendChart.getData().add(series);
+    	}
+    }
 }
 
