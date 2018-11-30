@@ -3,6 +3,7 @@ package comp3111.webscraper;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class ItemList {
@@ -13,17 +14,52 @@ public class ItemList {
 	private boolean isRefined;
 	
 	// constructor
+	
+    /**
+     * constructor to initialize data member
+     * @param the list of item object retrive
+     */
 	public ItemList(List<Item> list) {
 		this.list = list;
 	}
 	
 	// getters
+    /**
+     * default getter method to get length of the list
+     * @param void
+     * @return length in int
+     */
 	public int getQuantity() {return list==null?0:list.size();}
+	
+    /**
+     * default getter method to get total price of the list
+     * @param void
+     * @return total price in float
+     */
 	public float getTotalPrice() {return totalPrice;}
+	
+    /**
+     * checker function to checker the list has been refined or not
+     * @param void
+     * @return true if refined, false otherwise
+     */
 	public boolean isRefined() {return isRefined;}
+	
+	
+    /**
+     * checker function to checker the list has been refined or not
+     * @param index to get from the list
+     * @return the item with corresponding index
+     */
 	public Item getItem(int index) {return list.get(index);}
 	
-	// functions, need to merge the ArrayList items and refine
+	/**
+	 * Function merged 2 lists together and then do sorting
+	 * 
+	 * @author cfyauab
+	 * @param anotherList - another list scrapped from another website that needs to be merged
+	 * @return void
+	 */
 	public void mergeList(ItemList anotherList) {
 		List<Item> newList = new ArrayList<Item>();
 		newList.addAll(list);
@@ -66,36 +102,5 @@ public class ItemList {
 	public void addItem(Item item) {
 		list.add(item);
 	}
-	
-	/*
-	 * Sort the order of the Item in ascending order
-	 * for basic 4, if you want to print in descending order, just print from end to start
-	 * 
-	 * @param operation - stating the factor that the list should be sort with
-	 */
-	public void sortItem(int operation) {
-		// please use quicker sorting method :) from 3711 :)
-		// because the time for processing the data is very slow
-		// dont want demo last too long
 
-		// return if the operation is not 1-4
-		if( operation < 1 || operation > 4) return;
-		// operation 1
-		switch(operation){
-		case 1:
-			// Title
-			
-			break;
-		case 2:
-			// Price
-			
-			break;
-		case 3:
-			// URL
-			break;
-		case 4:
-			// Post date
-			break;
-		}
-	}
 }

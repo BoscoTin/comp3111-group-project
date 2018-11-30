@@ -48,6 +48,13 @@ public class WebScraperApplication extends Application {
  
     private static HostServices hostServices ;
 
+	/**
+	 * Function to get hostServices
+	 * 
+	 * @author cfyauab
+	 * @param void
+	 * @return HostServices - the hostServices of the current Application
+	 */
     public static HostServices getHost() {
         return hostServices ; 
     }

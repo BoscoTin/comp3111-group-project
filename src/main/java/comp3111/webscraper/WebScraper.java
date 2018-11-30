@@ -168,9 +168,13 @@ public class WebScraper {
 		return null;
 	}
 
-	
-	//scrap single page data
-	
+	/**
+	 * Function scrap one single page data from a website
+	 * 
+	 * @author cfyauab
+	 * @param keyword - the product keyword you want to search
+	 * @return List - the List of Item scrapped from a website 
+	 */
 	public List<Item> scrapeSinglePage(String keyword) {
 
 		try {
@@ -216,7 +220,13 @@ public class WebScraper {
 		return null;
 	}
 	
-	//remove non number char in a string
+	/**
+	 * Function to remove non-number character from a string
+	 * 
+	 * @author cfyauab
+	 * @param price - the Price in string that contains non-numeric character
+	 * @return String - a string with only numeric character only 
+	 */
 	private String RemoveNonNumber(String price) 
 	{
 		String result=new String();
