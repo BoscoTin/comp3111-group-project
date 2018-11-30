@@ -4,3 +4,10 @@ target/*
 *.DS_STORE
 bin
 bin/*
+/.gradle/
+/build/
+src/main/java/comp3111/webscraper/Controller_REMOTE_1340.java
+src/main/java/comp3111/webscraper/Controller_LOCAL_1340.java
+src/main/java/comp3111/webscraper/Controller_BASE_1340.java
+src/main/java/comp3111/webscraper/Controller_BACKUP_1340.java
+.merge_file_a12904

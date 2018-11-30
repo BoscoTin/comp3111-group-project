@@ -1,6 +1,8 @@
 package comp3111.webscraper;
 
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -68,6 +70,8 @@ import java.util.Vector;
 public class WebScraper {
 
 	private static final String DEFAULT_URL = "https://newyork.craigslist.org/";
+	private static final String CUSTOM_URL="https://www.preloved.co.uk/";
+	
 	private WebClient client;
 	
 
@@ -90,6 +94,7 @@ public class WebScraper {
 
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");			
+			
 			Vector<Item> result = new Vector<Item>();
 			
 			boolean lastPage = false;
@@ -117,30 +122,33 @@ public class WebScraper {
 				
 				// get each item and put it into the result list
 				// no difference with skeleton code
-				for (int i = 0; i < items.size(); i++) {
-					HtmlElement htmlItem = (HtmlElement) items.get(i);
-					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
-					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
-					
+				
+				new Thread(()-> 
+				{
+					for (int i = 0; i < items.size(); i++) 
+					{
+						HtmlElement htmlItem = (HtmlElement) items.get(i);
+						HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
+						HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));				
 					// add postDate
-					HtmlElement timeClass = ((HtmlElement) htmlItem.getFirstByXPath(".//time[@class='result-date']"));
-
+						HtmlElement timeClass = ((HtmlElement) htmlItem.getFirstByXPath(".//time[@class='result-date']"));
 					// It is possible that an item doesn't have any price, we set the price to 0.0
 					// in this case
-					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
-
-					Item item = new Item();
-					item.setTitle(itemAnchor.asText());
-					item.setUrl(DEFAULT_URL + itemAnchor.getHrefAttribute());
+						String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
+						Item item = new Item();
+						item.setTitle(itemAnchor.asText());
+						item.setUrl(itemAnchor.getHrefAttribute());
 	
-					item.setPrice(new Double(itemPrice.replace("$", "")));
+						item.setPrice(new Double(itemPrice.replace("$", "")));
+						item.setPortal("craigslist");
+						// add postDate
+						item.setPostDate(timeClass.asText());
 					
-					// add postDate
-					String itemDate = timeClass.getAttribute("datetime");
-					item.setPostDate(itemDate.split(" ")[0]);
-	
-					result.add(item);
-				}
+						result.add(item);
+					}
+				}).start();
+				
+				
 				
 				// check if the pageg is the last page, if it is, change the url
 				if( lastPage == false ) {
@@ -151,7 +159,7 @@ public class WebScraper {
 			} while(lastPage == false);
 			
 			
-			client.close();
+			client.close();	
 			return result;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -159,4 +167,68 @@ public class WebScraper {
 		return null;
 	}
 
+	
+	//scrap single page data
+	
+	public List<Item> scrapeSinglePage(String keyword) {
+
+		try {
+			
+			String searchUrl = CUSTOM_URL + "search?keyword="+ URLEncoder.encode(keyword, "UTF-8");
+			HtmlPage page = client.getPage(searchUrl);
+			List<?> items = (List<?>) page.getByXPath("//li[@data-test-element='search-result']");
+			Vector<Item> result = new Vector<Item>();
+
+			for (int i = 0; i < items.size(); i++) {
+				HtmlElement htmlItem = (HtmlElement) items.get(i);
+				HtmlElement itemAnchor = htmlItem.getFirstByXPath(".//span[@itemprop='name']");
+				HtmlElement spanPrice = htmlItem.getFirstByXPath(".//span[@itemprop='price']");
+				
+				Item item = new Item();
+				if(itemAnchor!=null)
+				{
+					System.out.println(itemAnchor.asText());
+					item.setTitle(itemAnchor.asText());
+				}			
+				if(spanPrice!=null)
+				{
+					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
+					itemPrice=RemoveNonNumber(itemPrice);					
+					item.setPrice(new Double(itemPrice.replace("?", "")));
+				}
+				
+				
+				String url=htmlItem.getAttribute("data-href");
+				if(url!=null) 
+				{
+					item.setUrl(url);
+				}
+				
+				item.setPortal("preloved");
+				result.add(item);
+			}
+			client.close();
+			return result;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+	
+	//remove non number char in a string
+	private String RemoveNonNumber(String price) 
+	{
+		String result=new String();
+		for(int i=0;i<price.length();i++) 
+		{
+			if(price.charAt(i)>='0'&&price.charAt(i)<='9'||price.charAt(i)=='.') 
+			{
+				result+=price.charAt(i);
+			}
+		}
+		return result;
+	}
+	
+	
+	
 }

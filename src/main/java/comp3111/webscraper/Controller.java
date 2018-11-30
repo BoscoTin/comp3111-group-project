@@ -4,30 +4,26 @@
 package comp3111.webscraper;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Hyperlink;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 //task5&6
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
+import java.util.Date;
 import java.util.List;
-
-// for advanced 3
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
-import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.ComboBox;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseButton;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-/**
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.util.Callback;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.web.WebView;
+import javafx.application.HostServices;
+import javafx.scene.web.WebEngine;
+/** 
  * 
  * @author kevinw
  *
@@ -35,8 +31,25 @@ import javafx.beans.value.ObservableValue;
  * Controller class that manage GUI interaction. Please see document about JavaFX for details.
  * 
  */
+
+
 public class Controller {
 
+	@FXML
+	private TableView<Item> Table;
+
+	@FXML
+	private TableColumn<Item,String> Title;
+
+	@FXML
+	private TableColumn<Item,Double> Price;
+	@FXML
+	private TableColumn<Item,Hyperlink> URL;
+	@FXML
+	private TableColumn<Item, String> Posted_Date;
+
+
+	
     @FXML 
     private Label labelCount; 
 
@@ -72,12 +85,6 @@ public class Controller {
     private Search[] search;
     private int searchNo;
     
-    @FXML
-    private AreaChart trendChart;
-    @FXML
-    private ComboBox trendComboBox;
-    @FXML
-    private NumberAxis trendGraphYAxis;
     
     /**
      * Default controller
@@ -89,13 +96,43 @@ public class Controller {
     	search = new Search[5];
     	searchNo = -1;
     }
+    
+    
 
+
+    public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, TableCell<Item, Hyperlink>> {
+        
+        @Override
+        public TableCell<Item, Hyperlink> call(TableColumn<Item, Hyperlink> arg) {
+            TableCell<Item, Hyperlink> cell = new TableCell<Item, Hyperlink>() {
+                @Override               
+                protected void updateItem(Hyperlink item, boolean empty) {
+                    setGraphic(item);   
+                }
+            };
+            return cell;
+        }
+    }
+
+   
+    
     /**
      * Default initializer. It is empty.
      * set every thing empty
      */
     @FXML
     private void initialize() {
+    	
+		Title.setCellValueFactory(new PropertyValueFactory<Item,String>("title"));
+		
+		Price.setCellValueFactory(new PropertyValueFactory<Item,Double>("price"));
+		
+		URL.setCellValueFactory(new PropertyValueFactory<Item,Hyperlink>("hyperlink"));
+		URL.setCellFactory(new HyperlinkCell());
+		
+		Posted_Date.setCellValueFactory(new PropertyValueFactory<Item,String>("postDate"));
+		
+
     	labelCount.setText("");
     	labelPrice.setText("");
     	labelMin.setText("");
@@ -108,29 +145,52 @@ public class Controller {
 //    	task5
     	ButtonRefine.setDisable(true);
     	
+    	
+       
+    	
+    	
     }
-    
+    //task 4
+    private void FillTable(ItemList itemList)
+	{
+    	
+		Table.setItems(getItem(itemList));
+	}
+
+    //task 4
+	public ObservableList<Item> getItem(ItemList itemList)
+	{
+		ObservableList<Item> list= FXCollections.observableArrayList();
+		for(int i=0;i<itemList.getQuantity();i++)
+		{
+			list.add(itemList.getItem(i));
+			//System.out.println(itemList.getItem(i).getTitle());
+		}
+		
+		return list;
+	}
+
+
     /**
      * Called when the search button is pressed.
      */
     @FXML
     private void actionSearch() {
-    	
-    	// make sure the search is lower than 5
-    	if(searchNo != 4)
-    		searchNo++;
-    	else {
-    		for(int i = 0; i < 4; i++)
-    			search[i] = search[i+1];
-    	}
-    	
+    	searchNo++;
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
     	
     	// Bosco changed these part
     	Search s = new Search();
     	s.setKeyword(textFieldKeyword.getText());
     	ItemList itemList = new ItemList(scraper.scrape(textFieldKeyword.getText()) );
+    	
+    	//basic 2
+    	ItemList SinglePage=new ItemList(scraper.scrapeSinglePage(textFieldKeyword.getText()));
+    	itemList.mergeList(SinglePage);
+    	//basic 2 end
+    	
     	s.setItemList(itemList);
+  
     	
     	search[searchNo] = s;
     	
@@ -142,11 +202,9 @@ public class Controller {
     	last = textFieldKeyword.getText();
 //    	task5
     	ButtonRefine.setDisable(false);
-    	
-    	// advance 3
-    	s.setAreaChart();
-    	updateComboBox();
-    	updateAreaChart(searchNo);
+
+    	//task 4
+		FillTable(itemList);
     }
     
     /**task6
@@ -214,76 +272,5 @@ public class Controller {
     	dg.show();
     }
     
-    /**
-     * Function to update the comboBox content in the trend tab.
-     * 
-     * for advanced 3
-     */
-    private void updateComboBox() {
-    	trendComboBox.getItems().clear();
-    	int i = 0;
-    	for(Search s : search) {
-    		if( s != null ) {
-    			trendComboBox.getItems().add(i++, s.getKeyword());
-    		}
-    	}
-    	
-    	trendComboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override 
-            public void changed(ObservableValue ov, String t, String t1) {                
-                for(int i = 0; i <= searchNo; i++) {
-                	if( search[i].getKeyword().equals(t1) ) {
-                		updateAreaChart(i);
-                		break;
-                	}
-                }              
-            }    
-        });
-    }
-    
-    /**
-     * Function to update the Chart with the assigned search
-     * 
-     * for advanced 3
-     * @param searchNo - the search that linked to which search user want to show with the chart
-     */
-    private void updateAreaChart(int searchNo) {
-    	if(searchNo < 0 || searchNo > 4) return;
-    	else {
-    		if(trendChart.getData() != null) {
-    			trendChart.getData().clear();
-    		}
-    		
-    		trendGraphYAxis.setLabel("The average selling price of the " + search[searchNo].getKeyword());
-    		
-    		XYChart.Series<String, Number> series= new XYChart.Series<String, Number>();
-    		
-    		for(int i = 0; i < 7; i++) {
-    			if(search[searchNo].getCount(i) != 0) {
-    				XYChart.Data<String, Number> data = new XYChart.Data<String, Number>
-					( search[searchNo].getXPoints(i), search[searchNo].getYPoints(i));
-    				series.getData().add(data);
-    			}
-    		}
-    		trendChart.getData().add(series);
-    		// add point listener
-    		for( XYChart.Data<String, Number> point : series.getData() ){
-    			point.getNode().setStyle("-fx-background-color: blue");
-    			
-    			point.getNode().setOnMouseClicked(event -> {
-    	    		if(event.getClickCount() == 2) {
-    	    			for( XYChart.Data<String, Number> node : series.getData() )
-    	    				node.getNode().setStyle("-fx-background-color: blue");
-    	    			
-    	    			String day = point.getXValue();
-    	    			textAreaConsole.setText( search[searchNo].particularDayConsoleContent(day) );
-    	    			
-    	    			point.getNode().setStyle("-fx-background-color: black;");
-    	    		}
-    	    		else return;
-    			});	
-    		}
-    	}
-    }
 }
 
