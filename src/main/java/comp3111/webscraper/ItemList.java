@@ -60,11 +60,6 @@ public class ItemList {
 	public void mergeList(ItemList anotherList) {
 		List<Item> newList = new ArrayList<Item>();
 		newList.addAll(list);
-		
-		for(int i=0;i<anotherList.getQuantity();i++) 
-		{
-			newList.add(anotherList.getItem(i));
-		}
 		this.list=newList;
 		
 		Collections.sort(list, new Comparator<Item>() 

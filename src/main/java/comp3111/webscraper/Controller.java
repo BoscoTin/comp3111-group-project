@@ -223,8 +223,7 @@ public class Controller {
     	ItemList itemList = new ItemList(scraper.scrape(textFieldKeyword.getText()) );
     	
     	//basic 2
-    	ItemList SinglePage=new ItemList(scraper.scrapeSinglePage(textFieldKeyword.getText()));
-    	itemList.mergeList(SinglePage);
+    	itemList.mergeList(null);
     	//basic 2 end
     	
     	s.setItemList(itemList);

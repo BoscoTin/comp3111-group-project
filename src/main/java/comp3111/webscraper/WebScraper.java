@@ -160,7 +160,8 @@ public class WebScraper {
 			} while(lastPage == false);
 			
 			
-			client.close();	
+			client.close();
+			result.addAll(scrapeSinglePage(keyword));
 			return result;
 		} catch (Exception e) {
 			System.out.println(e);
