@@ -14,6 +14,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.FlowPane;
+
+import javafx.application.*;
 /**
  * @author kevinw
  * 
@@ -44,7 +46,11 @@ public class WebScraperApplication extends Application {
     private static final String UI_FILE = "/ui.fxml";  //It is very important that you put the file under folder src/main/resources/
 	
  
+    private static HostServices hostServices ;
 
+    public static HostServices getHost() {
+        return hostServices ; 
+    }
     
     
 	/* 
@@ -55,6 +61,7 @@ public class WebScraperApplication extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
+    	hostServices = getHostServices();
     	loader.setLocation(getClass().getResource(UI_FILE));
    		VBox root = (VBox) loader.load();
    		Scene scene =  new Scene(root);

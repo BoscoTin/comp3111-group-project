@@ -2,13 +2,10 @@ package comp3111.webscraper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
-
-import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javafx.application.HostServices;
 public class Item {
 	private String title=null ; 
 	private Double price=(double) 0 ;
@@ -59,16 +56,7 @@ public class Item {
 	public void setUrl(String url) {
 		this.hyperlink=new Hyperlink(url);
 		hyperlink.setOnAction(e -> {
-		    if(Desktop.isDesktopSupported())
-		    {
-		        try {
-		            Desktop.getDesktop().browse(new URI(url));
-		        } catch (IOException e1) {
-		            e1.printStackTrace();
-		        } catch (URISyntaxException e1) {
-		            e1.printStackTrace();
-		        }
-		    }
+			WebScraperApplication.getHost().showDocument(url);
 		});
 		
 		
