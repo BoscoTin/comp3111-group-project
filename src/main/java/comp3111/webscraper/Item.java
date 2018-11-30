@@ -3,6 +3,12 @@ package comp3111.webscraper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Hyperlink;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Item {
 	private String title ; 
@@ -11,6 +17,7 @@ public class Item {
 	private String Portal;
 	// for task 4 and adv task 3
 	private Date postDate;
+	private Hyperlink hyperlink=null;
 	
 	public String getTitle() {
 		return title;
@@ -18,7 +25,11 @@ public class Item {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	public Hyperlink getHyperlink() {
+    	
+        return hyperlink;
+        
+    }
 	public String getPortal() {
 		return Portal;
 	}
@@ -36,6 +47,11 @@ public class Item {
 		return url;
 	}
 	public void setUrl(String url) {
+		this.hyperlink=new Hyperlink(url);
+		hyperlink.setOnAction(e -> {
+			WebScraperApplication.getHost().showDocument(url);
+		});
+		
 		this.url = url;
 	}
 	
