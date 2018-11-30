@@ -260,6 +260,11 @@ public class Controller {
     /**task6
      * Called when the Refine button is pressed.
      */
+    /**
+     * task6 Called when the Refine button is pressed.
+     * @return void
+     * @exception NullPointerException On input error.
+     */
     @FXML
     private void actionRefine() {
     	System.out.println("actionRefine: " + textFieldKeyword.getText());

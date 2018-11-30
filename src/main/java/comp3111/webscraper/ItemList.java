@@ -23,6 +23,7 @@ public class ItemList {
      */
 	public ItemList(List<Item> list) {
 		this.list = list;
+		isRefined=false;
 	}
 	
 	// getters
@@ -86,6 +87,11 @@ public class ItemList {
 		});
 		
 	}
+	 /**
+     *  function to refine the list 
+     * @param keyword to search for the list
+     * @return void
+     */
 	public void refineSearch(String keyword) {
 		isRefined=true;
 		List<Item> newList = new ArrayList<Item>();
