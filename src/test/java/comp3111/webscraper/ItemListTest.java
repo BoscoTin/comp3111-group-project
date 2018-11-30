@@ -38,4 +38,16 @@ public class ItemListTest {
 		ItemList itemList2 = new ItemList(null);
 		assertEquals(itemList2.getQuantity(), 0);
 	}
+	
+	@Test
+	public void testMerge() {
+		ItemList itemList = new ItemList(setItemList());
+		
+		ItemList itemList2 = new ItemList(null);
+		itemList.mergeList(itemList2);
+		assertEquals(itemList!=null, true);
+	}
+	
+	
+	
 }
