@@ -183,7 +183,14 @@ public class Controller {
     	Search s = new Search();
     	s.setKeyword(textFieldKeyword.getText());
     	ItemList itemList = new ItemList(scraper.scrape(textFieldKeyword.getText()) );
+    	
+    	//basic 2
+    	ItemList SinglePage=new ItemList(scraper.scrapeSinglePage(textFieldKeyword.getText()));
+    	itemList.mergeList(SinglePage);
+    	//basic 2 end
+    	
     	s.setItemList(itemList);
+  
     	
     	search[searchNo] = s;
     	

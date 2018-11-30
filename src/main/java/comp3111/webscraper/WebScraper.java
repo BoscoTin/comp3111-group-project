@@ -168,13 +168,13 @@ public class WebScraper {
 	}
 
 	
-	
+	//scrap single page data
 	
 	public List<Item> scrapeSinglePage(String keyword) {
 
 		try {
 			
-			String searchUrl = CUSTOM_URL + "search?keyword=123"+ URLEncoder.encode(keyword, "UTF-8");
+			String searchUrl = CUSTOM_URL + "search?keyword="+ URLEncoder.encode(keyword, "UTF-8");
 			HtmlPage page = client.getPage(searchUrl);
 			List<?> items = (List<?>) page.getByXPath("//li[@data-test-element='search-result']");
 			Vector<Item> result = new Vector<Item>();
@@ -197,7 +197,13 @@ public class WebScraper {
 					item.setPrice(new Double(itemPrice.replace("?", "")));
 				}
 				
-				item.setUrl(htmlItem.getAttribute("data-href"));
+				
+				String url=htmlItem.getAttribute("data-href");
+				if(url!=null) 
+				{
+					item.setUrl(url);
+				}
+				
 				item.setPortal("preloved");
 				result.add(item);
 			}
@@ -209,6 +215,7 @@ public class WebScraper {
 		return null;
 	}
 	
+	//remove non number char in a string
 	private String RemoveNonNumber(String price) 
 	{
 		String result=new String();

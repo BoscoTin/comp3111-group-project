@@ -1,5 +1,8 @@
 package comp3111.webscraper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ItemList {
@@ -15,14 +18,47 @@ public class ItemList {
 	}
 	
 	// getters
-	public int getQuantity() {return list.size();}
+	public int getQuantity() {return list==null?0:list.size();}
 	public float getTotalPrice() {return totalPrice;}
 	public boolean isRefined() {return isRefined;}
 	public Item getItem(int index) {return list.get(index);}
 	
 	// functions, need to merge the ArrayList items and refine
+	//task 2: also do sorting
 	public void mergeList(ItemList anotherList) {
-		// dont use contains() in List, isDuplicated() is for your function
+		List<Item> newList = new ArrayList<Item>();
+		newList.addAll(list);
+		
+		for(int i=0;i<anotherList.getQuantity();i++) 
+		{
+			newList.add(anotherList.getItem(i));
+		}
+		this.list=newList;
+		
+		Collections.sort(list, new Comparator<Item>() 
+		{
+			@Override
+		    public int compare(Item o1, Item o2) {
+		        // write comparison logic here like below , it's just a sample
+		        if(o1.getPrice()>o2.getPrice()) 
+		        {
+		        	return 1;
+		        }
+		        if(o1.getPrice()<o2.getPrice()) 
+		        {
+		        	return -1;
+		        }
+
+		        if(o1.getPortal().equals("craigslist")&&!o2.getPortal().equals("craigslist"))
+		        {return -1;}	
+		        else if(!o1.getPortal().equals("craigslist")&&o2.getPortal().equals("craigslist"))
+		        {return 1;}
+		        return 0;
+		      
+		    }	
+		});
+		
+		
 	}
 	public void refineSearch(String keyword) {
 		
