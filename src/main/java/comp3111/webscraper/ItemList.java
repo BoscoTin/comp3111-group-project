@@ -6,6 +6,9 @@ import java.util.List;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+/**
+ * This class list of item with a few extra information
+ */
 public class ItemList {
 	
 	// data member, follow the UML diagram
@@ -98,7 +101,11 @@ public class ItemList {
 		
 	}
 	
-	// functions, for editing the list array
+	 /**
+     * This method add an item to the list
+     * @param item the itemto be added.
+     * @return void
+     */
 	public void addItem(Item item) {
 		list.add(item);
 	}

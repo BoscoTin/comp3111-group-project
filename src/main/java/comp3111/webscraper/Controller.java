@@ -35,16 +35,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 
-/** 
- * 
- * @author kevinw
- *
- *
- * Controller class that manage GUI interaction. Please see document about JavaFX for details.
- * 
+/**
+ * This provides basic control to GUI components
  */
-
-
 public class Controller {
 
 	@FXML
@@ -116,7 +109,9 @@ public class Controller {
     
     
 
-
+    /**
+     * This class implement the callback to update the tablecell in gui
+     */
     public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, TableCell<Item, Hyperlink>> {
         
         @Override
@@ -178,7 +173,7 @@ public class Controller {
     
     /**
      * This method fill the table with updated information
-     * @param itemList The Itemlist with product information
+     * @param The itemList Itemlist with product information
      * @return void
      * @exception NullPointerException On input error.
      */
@@ -192,8 +187,8 @@ public class Controller {
     
     /**
      * This method gets items for putting in the table
-     * @param The Itemlist with product information
-     * @return void
+     * @param ItemList - list product information
+     * @return ObservableList - containing the same product information
      * @exception NullPointerException On input error.
      */
 	public ObservableList<Item> getItem(ItemList itemList)
