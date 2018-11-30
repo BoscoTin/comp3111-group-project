@@ -40,6 +40,8 @@ import javafx.beans.value.ObservableValue;
  */
 public class Controller {
 
+	private static final List<Item> Item = null;
+
 	@FXML
 	private TableView<Item> Table;
 
@@ -158,6 +160,12 @@ public class Controller {
     	labelLatest.setText("");
     	textAreaConsole.setText("");
     	textFieldKeyword.setText("");
+    	FillTable(new ItemList(Item));
+		trendChart.getData().clear();
+    	search = new Search[5];
+    	searchNo = -1;
+    	updateComboBox();
+
 //    	task6
     	last="";
     	MenuItemLastSearch.setDisable(true);
@@ -261,12 +269,14 @@ public class Controller {
     	 * To print out the data in console, use search[searchNo].getConsoleContent() to get the output string
     	 * As my trend tab need search class, so the interface become complicated, sorry for my bad
     	 */
-    	List<Item> result = scraper.scrape(textFieldKeyword.getText()+" "+last);
-    	String output = "";
-    	for (Item item : result) {
-    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-    	}
+    	search[searchNo].refineItemList(textFieldKeyword.getText());
+    	String output = search[searchNo].getConsoleContent();
     	textAreaConsole.setText(output);
+    	search[searchNo].setAreaChart();
+    	updateComboBox();
+    	updateAreaChart(searchNo);
+		FillTable(search[searchNo].getItemList());
+
     	ButtonRefine.setDisable(true);
     }
     

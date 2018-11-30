@@ -87,7 +87,16 @@ public class ItemList {
 		
 	}
 	public void refineSearch(String keyword) {
-		
+		isRefined=true;
+		List<Item> newList = new ArrayList<Item>();
+		for(Item i:list)
+			if(i.getTitle().contains(keyword)) {
+				newList.add(i);
+				System.out.println(i.getTitle());
+			}
+		this.list=newList;
+    	
+
 	}
 	
 	 /**
