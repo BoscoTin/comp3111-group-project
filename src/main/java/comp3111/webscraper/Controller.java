@@ -298,6 +298,11 @@ public class Controller {
     		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
     	}
     	textAreaConsole.setText(output);
+    	search[searchNo].setAreaChart();
+    	updateComboBox();
+    	updateAreaChart(searchNo);
+		FillTable(search[searchNo].getItemList());
+
     	last="";
     	MenuItemLastSearch.setDisable(true);
     }
