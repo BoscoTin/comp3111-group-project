@@ -268,12 +268,17 @@ public class Controller {
     		trendChart.getData().add(series);
     		// add point listener
     		for( XYChart.Data<String, Number> point : series.getData() ){
+    			point.getNode().setStyle("-fx-background-color: blue");
+    			
     			point.getNode().setOnMouseClicked(event -> {
     	    		if(event.getClickCount() == 2) {
+    	    			for( XYChart.Data<String, Number> node : series.getData() )
+    	    				node.getNode().setStyle("-fx-background-color: blue");
+    	    			
     	    			String day = point.getXValue();
     	    			textAreaConsole.setText( search[searchNo].particularDayConsoleContent(day) );
     	    			
-    	    			point.getNode().setStyle("-fx-fill: #000000;");
+    	    			point.getNode().setStyle("-fx-background-color: black;");
     	    		}
     	    		else return;
     			});	
