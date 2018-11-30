@@ -20,7 +20,7 @@ public class Search {
 	/**
 	 * The method of setting the console tab string output.
 	 * 
-	 * @param null
+	 * @param
 	 * @return A String that contains all the items inside this particular search.
 	 */
 	public String getConsoleContent() {

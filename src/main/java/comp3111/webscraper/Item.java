@@ -8,6 +8,7 @@ public class Item {
 	private String title ; 
 	private double price ;
 	private String url ;
+	private String Portal;
 	// for task 4 and adv task 3
 	private Date postDate;
 	
@@ -17,6 +18,14 @@ public class Item {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public String getPortal() {
+		return Portal;
+	}
+	public void setPortal(String Portal) {
+		this.Portal = Portal;
+	}
+
 	public double getPrice() {
 		return price;
 	}
