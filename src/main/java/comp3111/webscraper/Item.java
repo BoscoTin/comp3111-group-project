@@ -41,12 +41,6 @@ public class Item {
         return hyperlink;
         
     }
-	
-    
-    
-    
-    
-	
 	public void setPortal(String Portal) 
 	{
 		this.Portal=Portal;
