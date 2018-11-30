@@ -20,10 +20,13 @@ import java.util.List;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ComboBox;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 /**
  * 
  * @author kevinw
@@ -74,8 +77,6 @@ public class Controller {
     @FXML
     private ComboBox trendComboBox;
     @FXML
-    private CategoryAxis trendGraphXAxis;
-    @FXML
     private NumberAxis trendGraphYAxis;
     
     /**
@@ -106,6 +107,7 @@ public class Controller {
     	MenuItemLastSearch.setDisable(true);
 //    	task5
     	ButtonRefine.setDisable(true);
+    	
     }
     
     /**
@@ -113,7 +115,15 @@ public class Controller {
      */
     @FXML
     private void actionSearch() {
-    	searchNo++;
+    	
+    	// make sure the search is lower than 5
+    	if(searchNo != 4)
+    		searchNo++;
+    	else {
+    		for(int i = 0; i < 4; i++)
+    			search[i] = search[i+1];
+    	}
+    	
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
     	
     	// Bosco changed these part
@@ -132,6 +142,11 @@ public class Controller {
     	last = textFieldKeyword.getText();
 //    	task5
     	ButtonRefine.setDisable(false);
+    	
+    	// advance 3
+    	s.setAreaChart();
+    	updateComboBox();
+    	updateAreaChart(searchNo);
     }
     
     /**task6
@@ -199,5 +214,76 @@ public class Controller {
     	dg.show();
     }
     
+    /**
+     * Function to update the comboBox content in the trend tab.
+     * 
+     * for advanced 3
+     */
+    private void updateComboBox() {
+    	trendComboBox.getItems().clear();
+    	int i = 0;
+    	for(Search s : search) {
+    		if( s != null ) {
+    			trendComboBox.getItems().add(i++, s.getKeyword());
+    		}
+    	}
+    	
+    	trendComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override 
+            public void changed(ObservableValue ov, String t, String t1) {                
+                for(int i = 0; i <= searchNo; i++) {
+                	if( search[i].getKeyword().equals(t1) ) {
+                		updateAreaChart(i);
+                		break;
+                	}
+                }              
+            }    
+        });
+    }
+    
+    /**
+     * Function to update the Chart with the assigned search
+     * 
+     * for advanced 3
+     * @param searchNo - the search that linked to which search user want to show with the chart
+     */
+    private void updateAreaChart(int searchNo) {
+    	if(searchNo < 0 || searchNo > 4) return;
+    	else {
+    		if(trendChart.getData() != null) {
+    			trendChart.getData().clear();
+    		}
+    		
+    		trendGraphYAxis.setLabel("The average selling price of the " + search[searchNo].getKeyword());
+    		
+    		XYChart.Series<String, Number> series= new XYChart.Series<String, Number>();
+    		
+    		for(int i = 0; i < 7; i++) {
+    			if(search[searchNo].getCount(i) != 0) {
+    				XYChart.Data<String, Number> data = new XYChart.Data<String, Number>
+					( search[searchNo].getXPoints(i), search[searchNo].getYPoints(i));
+    				series.getData().add(data);
+    			}
+    		}
+    		trendChart.getData().add(series);
+    		// add point listener
+    		for( XYChart.Data<String, Number> point : series.getData() ){
+    			point.getNode().setStyle("-fx-background-color: blue");
+    			
+    			point.getNode().setOnMouseClicked(event -> {
+    	    		if(event.getClickCount() == 2) {
+    	    			for( XYChart.Data<String, Number> node : series.getData() )
+    	    				node.getNode().setStyle("-fx-background-color: blue");
+    	    			
+    	    			String day = point.getXValue();
+    	    			textAreaConsole.setText( search[searchNo].particularDayConsoleContent(day) );
+    	    			
+    	    			point.getNode().setStyle("-fx-background-color: black;");
+    	    		}
+    	    		else return;
+    			});	
+    		}
+    	}
+    }
 }
 
