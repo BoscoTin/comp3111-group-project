@@ -3,6 +3,8 @@ package comp3111.webscraper;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -72,18 +74,65 @@ public class SearchTest {
 		Vector<Item> result = new Vector<Item>();
 		Item a = new Item();
 		a.setTitle("");
-		a.setUrl("");
 		a.setPostDate("2018-11-29");
 		a.setPrice(0.0);
 		Item b = new Item();
 		b.setPostDate("2018-11-30");
-		b.setUrl("");
 		b.setTitle("");
 		b.setPrice(0.0);
 		
 		ItemList itemList = new ItemList(result);
 		s.setItemList(itemList);
 		
-		assertEquals( s.particularDayConsoleContent("11/30/2018"), a.getTitle() + "\t" + a.getPrice() + "\t" + a.getUrl() + "\t" + a.getPostDate() + "\n");
+		String day = s.particularDayConsoleContent("11/29/2018");
+		assertEquals( day != null, true);
+	}
+	
+	@Test
+	public void testGetTime() {
+		Search s = new Search();
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		
+		assertEquals(s.getTime(0), sdf.format(date));
+	}
+	
+	@Test
+	public void testGetConsoleContent() {
+		Search s = new Search();
+		Vector<Item> result = new Vector<Item>();
+		Item a = new Item();
+		a.setTitle("");
+		a.setPostDate("2018-11-29");
+		a.setPrice(0.0);
+		Item b = new Item();
+		b.setPostDate("2018-11-30");
+		b.setTitle("");
+		b.setPrice(0.0);
+		
+		ItemList itemList = new ItemList(result);
+		s.setItemList(itemList);
+		
+		assertEquals(s.getConsoleContent() != null, true);
+	}
+	
+	@Test
+	public void testGetSetAreaChart() {
+		Search s = new Search();
+		Vector<Item> result = new Vector<Item>();
+		Item a = new Item();
+		a.setTitle("");
+		a.setPostDate("2018-11-29");
+		a.setPrice(0.0);
+		Item b = new Item();
+		b.setPostDate("2018-11-30");
+		b.setTitle("");
+		b.setPrice(0.0);
+		
+		ItemList itemList = new ItemList(result);
+		s.setItemList(itemList);
+		s.setAreaChart();
+		
+		assertEquals(s.getYPoints(1) - 0.0 < 0.001, true);
 	}
 }
