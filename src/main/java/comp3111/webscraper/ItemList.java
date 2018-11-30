@@ -13,7 +13,6 @@ public class ItemList {
 	
 	// data member, follow the UML diagram
 	private List<Item> list;
-	private float totalPrice;
 	private boolean isRefined;
 	
 	// constructor
@@ -34,12 +33,7 @@ public class ItemList {
      */
 	public int getQuantity() {return list==null?0:list.size();}
 	
-    /**
-     * default getter method to get total price of the list
-     * @param void
-     * @return total price in float
-     */
-	public float getTotalPrice() {return totalPrice;}
+   
 	
     /**
      * checker function to checker the list has been refined or not

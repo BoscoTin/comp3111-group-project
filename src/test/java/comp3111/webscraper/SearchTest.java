@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Vector;
 
 public class SearchTest {
 	
@@ -49,6 +50,40 @@ public class SearchTest {
 	
 	@Test
 	public void testSetItemList() {
-		//TODO
+		Search s = new Search();
+		Vector<Item> result = new Vector<Item>();
+		Item a = new Item();
+		a.setPostDate("2018-11-29");
+		Item b = new Item();
+		b.setPostDate("2018-11-30");
+		result.add(a);
+		result.add(b);
+		
+		ItemList itemList = new ItemList(result);
+		s.setItemList(itemList);
+		
+		assertEquals(s.getItemList().getItem(0).getPostDate(), "11/29/2018");
+		assertEquals(s.getItemList().getItem(1).getPostDate(), "11/30/2018");
+	}
+	
+	@Test
+	public void testDayConsole() {
+		Search s = new Search();
+		Vector<Item> result = new Vector<Item>();
+		Item a = new Item();
+		a.setTitle("");
+		a.setUrl("");
+		a.setPostDate("2018-11-29");
+		a.setPrice(0.0);
+		Item b = new Item();
+		b.setPostDate("2018-11-30");
+		b.setUrl("");
+		b.setTitle("");
+		b.setPrice(0.0);
+		
+		ItemList itemList = new ItemList(result);
+		s.setItemList(itemList);
+		
+		assertEquals( s.particularDayConsoleContent("11/30/2018"), a.getTitle() + "\t" + a.getPrice() + "\t" + a.getUrl() + "\t" + a.getPostDate() + "\n");
 	}
 }
