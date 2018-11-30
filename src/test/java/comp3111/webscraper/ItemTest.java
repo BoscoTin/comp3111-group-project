@@ -19,6 +19,8 @@ public class ItemTest {
 		Item i = new Item();
 		i.setPostDate("2018-11-30");
 		assertEquals(i.getPostDate(), "11/30/2018");
+		i.setPostDate(null);
+		assertEquals(i.getPostDate(), "");
 	}
 	
 	@Test
@@ -29,9 +31,12 @@ public class ItemTest {
 	}
 	
 	@Test
-	public void testSetUrl() {
+	public void testGetTime() {
 		Item i = new Item();
-		i.setUrl("craiglist.org");
-		assertEquals( i.getUrl(), "craiglist.org");
+		i.setPostDate("2018-11-30");
+		assertEquals( i.getTime() > 0, true);
+		
+		i.setPostDate(null);
+		assertEquals( i.getTime() == 0, true);
 	}
 }
